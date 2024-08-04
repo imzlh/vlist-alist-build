@@ -7,7 +7,7 @@ run('mkdir -p ~/root/');
 run('mkdir -p ~/toolchain/');
 
 // 获取前端文件包
-Deno.chdir('~/');
+Deno.chdir('~');
 await wget('https://github.com/imzlh/alist-ui-vlist/releases/download/master/vlist5_latest.tgz', 'vlist.tgz');
 run(`tar -xf vlist.tgz`);
 
