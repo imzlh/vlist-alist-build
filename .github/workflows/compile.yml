@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Setup deno
         run: |
-          curl -L https://github.com/denoland/deno/releases/download/v1.45.5/deno-x86_64-pc-windows-msvc.zip -o deno.zip
+          curl -L https://github.com/denoland/deno/releases/download/v1.45.5/deno-x86_64-unknown-linux-gnu.zip -o deno.zip
           unzip deno.zip
           rm deno.zip 
           mv deno /usr/bin/deno
