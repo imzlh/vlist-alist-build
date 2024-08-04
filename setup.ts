@@ -3,7 +3,6 @@ import GOEnv from './goenv.ts';
 import { cd, run, runWithOutput, wget } from './utils.ts';
 
 run('mkdir -p ~/dist/');
-run('mkdir -p ~/root/');
 run('mkdir -p ~/toolchain/');
 
 // 获取前端文件包
@@ -14,13 +13,11 @@ run(`tar -xf vlist.tgz`);
 // 克隆alist仓库
 run(`git clone https://github.com/alist-org/alist.git`);
 run(`cp -r dist/* alist/public/dist/`);
+run(`mv alist ~/dist/`);
 
 for(const arch in CC){
     const cc = (CC as Record<string, string>)[arch],
         env = (GOEnv as Record<string, Record<string, string>>)[arch];
-
-    // 清空home目录
-    run('rm -rf ~/root/*');
 
     // 安装依赖
     cd('~/toolchain/');
@@ -34,9 +31,7 @@ for(const arch in CC){
     run(`rm ${arch}.tgz`);
 
     // 复制
-    cd('~/root/');
-    run(`cp -r ~/alist/* .`);
-    run(`cp -r ~/alist/.git .`);
+    cd('~/alist/');
 
     // 开始编译
     const addition = `-X 'github.com/alist-org/alist/v3/internal/conf.BuiltAt=${new Date().toISOString()}'
@@ -48,6 +43,9 @@ for(const arch in CC){
 -X 'github.com/alist-org/alist/v3/internal/conf.Version=${runWithOutput("git describe --long --tags --dirty --always")}' 
 -X 'github.com/alist-org/alist/v3/internal/conf.WebVersion=5.6'`;
     run(`go build --ldflags="-s -w ${addition}" -o alist`, env);
-    run(`mv alist ~/dist/alist-${arch}`);
-    run(`rm -rf alist`);
+
+    // 压缩
+    run(`tar -zcf alist-${arch}.tgz alist`)
+    run(`mv alist-${arch}.tgz ~/dist/alist-${arch}.tgz`);
+    run(`rm -f alist`);
 }
