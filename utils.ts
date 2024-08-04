@@ -41,11 +41,13 @@ export function cd(dir: string){
 }
 
 export async function wget(url: string, saveAs: string){
+    const file = await Deno.open(saveAs, {createNew: true, read: false, write: true});
     for(let i = 0; i < 3; i++) try{
-        const fe = await fetch(url),
-            file = await Deno.open(saveAs, {createNew: true, read: false, write: true});
+        const fe = await fetch(url);
         if(!fe.ok) throw new Error(`Failed to fetch ${url}`);
+        file.seek(0, Deno.SeekMode.Start);
         await fe.body!.pipeTo(file.writable);
+        return;
     }catch(e){
         if(i === 2) throw new Error(`Failed to download ${url} after 3 retries: ${e.message}`);
         console.warn(`Failed to download ${url}(retry ${i+1}/3): ${e.message}`);
