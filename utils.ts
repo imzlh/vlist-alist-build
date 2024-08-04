@@ -1,13 +1,30 @@
 export function run(command: string, env?: Record<string, string>){
+    console.log(`\n>>> ${command}\n`);
     try{
-        const cmd = new Deno.Command('sh', {
+        new Deno.Command('sh', {
             env,
-            args: ['-c', command]
+            args: ['-c', command],
+            stdout: 'inherit',
+            stderr: 'inherit'
         }).outputSync();
-        return new TextDecoder().decode(cmd.stdout) + new TextDecoder().decode(cmd.stderr);
     }catch(e){
         console.error(e.message);
     }
+}
+
+export function runWithOutput(command: string, env?: Record<string, string>) {
+    console.log(`\n>>> ${command}\n`);
+    const p = new Deno.Command('sh', {
+        args: ['sh', '-c', command],
+        env,
+        stdout: 'piped',
+        stderr: 'piped'
+    }).outputSync();
+    if (p.code !== 0) {
+        console.error(new TextDecoder().decode(p.stderr));
+        throw new Error(`Command failed with status code ${p.code}`);
+    }
+    return (new TextDecoder().decode(p.stdout) + new TextDecoder().decode(p.stderr));
 }
 
 export function cd(dir: string){

@@ -1,6 +1,6 @@
 import CC from './cc.ts';
 import GOEnv from './goenv.ts';
-import { cd, run, wget } from './utils.ts';
+import { cd, run, runWithOutput, wget } from './utils.ts';
 
 run('mkdir -p ~/dist/');
 run('mkdir -p ~/root/');
@@ -35,16 +35,16 @@ for(const arch in CC){
 
     // 复制
     cd('~/root/');
-    run(`cp -r ~/alist/ .`);
+    run(`cp -r ~/alist/* .`);
 
     // 开始编译
     const addition = `X 'github.com/alist-org/alist/v3/internal/conf.BuiltAt=${new Date().toISOString()}'
 -X 'github.com/alist-org/alist/v3/internal/conf.GoVersion=${
-    parseFloat(run('go version')?.split('go version ')[1] || '0.1')
+    parseFloat(runWithOutput('go version').split('go version ')[1] || '0.1')
 }'
--X 'github.com/alist-org/alist/v3/internal/conf.GitAuthor=${run("git show -s --format='format:%aN <%ae>' HEAD")}'
--X 'github.com/alist-org/alist/v3/internal/conf.GitCommit=${run('git log --pretty=format:"%h" -1')}'
--X 'github.com/alist-org/alist/v3/internal/conf.Version=${run("git describe --long --tags --dirty --always")}' 
+-X 'github.com/alist-org/alist/v3/internal/conf.GitAuthor=${runWithOutput("git show -s --format='format:%aN <%ae>' HEAD")}'
+-X 'github.com/alist-org/alist/v3/internal/conf.GitCommit=${runWithOutput('git log --pretty=format:"%h" -1')}'
+-X 'github.com/alist-org/alist/v3/internal/conf.Version=${runWithOutput("git describe --long --tags --dirty --always")}' 
 -X 'github.com/alist-org/alist/v3/internal/conf.WebVersion=5.6'`;
     run(`go build --ldflags="-s -w ${addition}" -o alist`, env);
     run(`mv alist ~/dist/alist-${arch}`);
