@@ -36,7 +36,7 @@ for(const arch in CC){
 
     // 复制
     cd('~/root/');
-    run(`cp -r ~/alist/* .`);
+    run(`cp -r ~/alist/{.,}* .`);
 
     // 开始编译
     const addition = `X 'github.com/alist-org/alist/v3/internal/conf.BuiltAt=${new Date().toISOString()}'

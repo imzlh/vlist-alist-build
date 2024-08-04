@@ -22,7 +22,7 @@ export function runWithOutput(command: string, env?: Record<string, string>) {
     }).outputSync();
     if (p.code !== 0) {
         console.error(new TextDecoder().decode(p.stderr));
-        throw new Error(`Command failed with status code ${p.code}`);
+        console.error(`Command failed with status code ${p.code}`);
     }
     return (new TextDecoder().decode(p.stdout) + new TextDecoder().decode(p.stderr));
 }
