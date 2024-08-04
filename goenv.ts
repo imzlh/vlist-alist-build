@@ -32,6 +32,6 @@ export default {
         'GOOS': 'linux',
         'GOARCH': 'arm',
         'GOARM': '5',
-        'CC': HOMEPATH + '/toolchain/bin/aarch64-linux-musl-gcc'
+        'CC': HOMEPATH + '/toolchain/bin/armeb-linux-musleabihf-gcc'
     }
 };
