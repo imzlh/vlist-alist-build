@@ -41,8 +41,14 @@ export function cd(dir: string){
 }
 
 export async function wget(url: string, saveAs: string){
-    const fe = await fetch(url),
-        file = await Deno.open(saveAs, {createNew: true, read: false, write: true});
-    if(!fe.ok) throw new Error(`Failed to fetch ${url}`);
-    await fe.body!.pipeTo(file.writable);
+    for(let i = 0; i < 3; i++) try{
+        const fe = await fetch(url),
+            file = await Deno.open(saveAs, {createNew: true, read: false, write: true});
+        if(!fe.ok) throw new Error(`Failed to fetch ${url}`);
+        await fe.body!.pipeTo(file.writable);
+    }catch(e){
+        if(i === 2) throw new Error(`Failed to download ${url} after 3 retries: ${e.message}`);
+        console.warn(`Failed to download ${url}(retry ${i+1}/3): ${e.message}`);
+        await new Promise(resolve => setTimeout(resolve, 5000));
+    }
 }

@@ -39,7 +39,7 @@ for(const arch in CC){
     run(`cp -r ~/alist/.git .`);
 
     // 开始编译
-    const addition = `X 'github.com/alist-org/alist/v3/internal/conf.BuiltAt=${new Date().toISOString()}'
+    const addition = `-X 'github.com/alist-org/alist/v3/internal/conf.BuiltAt=${new Date().toISOString()}'
 -X 'github.com/alist-org/alist/v3/internal/conf.GoVersion=${
     parseFloat(runWithOutput('go version').split('go version ')[1] || '0.1')
 }'
