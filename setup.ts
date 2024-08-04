@@ -41,7 +41,10 @@ for(const arch in CC){
 -X 'github.com/alist-org/alist/v3/internal/conf.GitCommit=${runWithOutput('git log --pretty=format:"%h" -1')}'
 -X 'github.com/alist-org/alist/v3/internal/conf.Version=${runWithOutput("git describe --long --tags --dirty --always")}' 
 -X 'github.com/alist-org/alist/v3/internal/conf.WebVersion=5.6'`;
-    run(`go build --ldflags="-s -w ${addition}" -o alist`, env);
+    run(`go build --ldflags="-s -w ${addition}" -o alist`, {
+        ...env,
+        'CGO_ENABLED': '1'
+    });
 
     // 压缩
     run(`tar -zcf alist-${arch}.tgz alist`)
