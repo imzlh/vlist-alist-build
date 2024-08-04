@@ -10,6 +10,19 @@ export function run(command: string, env?: Record<string, string>){
     }
 }
 
+export function cd(dir: string){
+    if(dir.startsWith('~')){
+        const home = Deno.env.get('HOME');
+        if(!home) throw new Error('HOME environment variable not set');
+        dir = dir.replace('~', home);
+    }
+    try{
+        Deno.chdir(dir);
+    }catch(e){
+        console.warn('Failed to change directory: ' + e.message);
+    }
+}
+
 export async function wget(url: string, saveAs: string){
     const fe = await fetch(url),
         file = await Deno.open(saveAs, {createNew: true, read: false, write: true});

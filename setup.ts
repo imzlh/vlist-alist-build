@@ -1,13 +1,13 @@
 import CC from './cc.ts';
 import GOEnv from './goenv.ts';
-import { run, wget } from './utils.ts';
+import { cd, run, wget } from './utils.ts';
 
 run('mkdir -p ~/dist/');
 run('mkdir -p ~/root/');
 run('mkdir -p ~/toolchain/');
 
 // 获取前端文件包
-Deno.chdir('~');
+cd('~');
 await wget('https://github.com/imzlh/alist-ui-vlist/releases/download/master/vlist5_latest.tgz', 'vlist.tgz');
 run(`tar -xf vlist.tgz`);
 
@@ -23,7 +23,7 @@ for(const arch in CC){
     run('rm -rf ~/root/*');
 
     // 安装依赖
-    Deno.chdir('~/toolchain/');
+    cd('~/toolchain/');
 
     // 获取编辑工具包
     run(`rm -rf *`)
@@ -34,7 +34,7 @@ for(const arch in CC){
     run(`rm ${arch}.tgz`);
 
     // 复制
-    Deno.chdir('~/root/');
+    cd('~/root/');
     run(`cp -r ~/alist/ .`);
 
     // 开始编译
