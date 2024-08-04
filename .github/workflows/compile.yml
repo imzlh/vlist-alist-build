@@ -21,23 +21,17 @@ jobs:
         run: |
           curl -L https://github.com/denoland/deno/releases/download/v1.45.5/deno-x86_64-unknown-linux-gnu.zip -o deno.zip
           unzip deno.zip
-          rm deno.zip 
-          mv deno /usr/bin/deno
+          rm deno.zip
+          mv deno ~/deno 
+          chmod +x ~/deno
 
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go-version }}
 
-
       - name: Build
-        run: deno run -A --unstable setup.ts
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: alist_${{ env.SHA }}
-          path: dist
+        run: ~/deno run -A --unstable setup.ts
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
@@ -47,5 +41,5 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
           body: "这是已经编译完成的版本"
-          file: /dist/*
+          file: ~/dist/*
           file_glob: true
