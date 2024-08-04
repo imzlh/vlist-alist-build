@@ -28,6 +28,7 @@ export function runWithOutput(command: string, env?: Record<string, string>) {
 }
 
 export function cd(dir: string){
+    console.log(`\n>>> cd ${dir}`);
     if(dir.startsWith('~')){
         const home = Deno.env.get('HOME');
         if(!home) throw new Error('HOME environment variable not set');
@@ -42,6 +43,7 @@ export function cd(dir: string){
 
 export async function wget(url: string, saveAs: string){
     const file = await Deno.open(saveAs, {createNew: true, read: false, write: true});
+    console.log(`\n>>> wget -o ${saveAs} ${url}`);
     for(let i = 0; i < 3; i++) try{
         const fe = await fetch(url);
         if(!fe.ok) throw new Error(`Failed to fetch ${url}`);
