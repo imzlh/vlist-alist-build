@@ -1,7 +1,8 @@
 export function run(command: string, env?: Record<string, string>){
     try{
-        const cmd = new Deno.Command(command, {
+        const cmd = new Deno.Command('sh', {
             env,
+            args: ['-c', command]
         }).outputSync();
         return new TextDecoder().decode(cmd.stdout) + new TextDecoder().decode(cmd.stderr);
     }catch(e){
