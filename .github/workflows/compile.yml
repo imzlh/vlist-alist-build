@@ -18,7 +18,11 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Setup deno
-        run: curl -fsSL https://deno.land/install.sh | sh
+        run: |
+          curl -L https://github.com/denoland/deno/releases/download/v1.45.5/deno-x86_64-pc-windows-msvc.zip -o deno.zip
+          unzip deno.zip
+          rm deno.zip 
+          mv deno /usr/bin/deno
 
       - name: Setup Go
         uses: actions/setup-go@v5
