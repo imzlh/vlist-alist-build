@@ -1,5 +1,5 @@
 export function run(command: string, env?: Record<string, string>){
-    console.log(`\n>>> ${command}\n`);
+    console.log(`\n>>> ${command}`);
     try{
         new Deno.Command('sh', {
             env,
@@ -13,9 +13,9 @@ export function run(command: string, env?: Record<string, string>){
 }
 
 export function runWithOutput(command: string, env?: Record<string, string>) {
-    console.log(`\n>>> ${command}\n`);
+    console.log(`\n>>> ${command}`);
     const p = new Deno.Command('sh', {
-        args: ['sh', '-c', command],
+        args: ['-c', command],
         env,
         stdout: 'piped',
         stderr: 'piped'

@@ -13,7 +13,8 @@ run(`tar -xf vlist.tgz`);
 
 // 克隆alist仓库
 run(`git clone https://github.com/alist-org/alist.git`);
-run(`mv dist/ alist/public/`);
+run(`rm -rf alist/public/`);
+run(`mv dist/ alist/public`);
 
 for(const arch in CC){
     const cc = (CC as Record<string, string>)[arch],
