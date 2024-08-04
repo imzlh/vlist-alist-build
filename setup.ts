@@ -41,7 +41,7 @@ for(const arch in CC){
     // 开始编译
     const addition = `-X 'github.com/alist-org/alist/v3/internal/conf.BuiltAt=${new Date().toISOString()}'
 -X 'github.com/alist-org/alist/v3/internal/conf.GoVersion=${
-    parseFloat(runWithOutput('go version').split('go version ')[1] || '0.1')
+    runWithOutput('go version').split('go version ')[1]
 }'
 -X 'github.com/alist-org/alist/v3/internal/conf.GitAuthor=${runWithOutput("git show -s --format='format:%aN <%ae>' HEAD")}'
 -X 'github.com/alist-org/alist/v3/internal/conf.GitCommit=${runWithOutput('git log --pretty=format:"%h" -1')}'

@@ -45,5 +45,5 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
           body: "这是已经编译完成的版本"
-          file: ~/dist/*
+          file: /home/runner/dist/*
           file_glob: true
