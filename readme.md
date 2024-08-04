@@ -8,7 +8,6 @@
     - arm32l
     - armEL (no vfp)
     - arm64
-    - armEB
     - x86_64
 
 全部为muslibc

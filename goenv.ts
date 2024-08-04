@@ -27,11 +27,5 @@ export default {
         'GOOS': 'windows',
         'GOARCH': 'amd64',
         'CC': HOMEPATH + '/toolchain/bin/x86_64-w64-mingw32-gcc'
-    },
-    'armeb': {
-        'GOOS': 'linux',
-        'GOARCH': 'arm',
-        'GOARM': '5',
-        'CC': HOMEPATH + '/toolchain/bin/armeb-linux-musleabihf-gcc'
     }
 };
